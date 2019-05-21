@@ -10,5 +10,6 @@
 
 <style>
 #app {
+	font-family: 'Baloo Bhai', cursive;
 }
 </style>

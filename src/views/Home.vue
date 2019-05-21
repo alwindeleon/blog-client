@@ -1,9 +1,10 @@
 <template>
   <div class="home container">
     <div class="row">
-    	<div class="col-md-6 offset-md-3">
-    		<h1>Alwin's Blog</h1>
-    		<button id="show-modal" @click="showLoginModal = true">Show Login Modal</button>
+    	<div class="col-md-4 offset-md-4">
+    		<h1 class="mast-head">Public Space</h1>
+    		<button id="show-modal" @click="showLoginModal = true">Login</button>
+        <button id="show-modal" @click="showSignupModal = true">Sign Up</button>
     		<ArticleList></ArticleList>
     	</div>
     </div>
@@ -18,6 +19,8 @@
     <h3 slot="header">custom header</h3>
   </Modal>
   <LoginModal  v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
+  <ArticleModal  v-if="showArticleModal" @close="showArticleModal = false"></ArticleModal>
+  <SignupModal  v-if="showSignupModal" @close="showSignupModal = false"></SignupModal>
   </div>
 </template>
 
@@ -27,6 +30,9 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import ArticleList from '@/components/ArticleList.vue'
 import Modal from '@/components/Modal.vue'
 import LoginModal from '@/components/LoginModal.vue'
+import ArticleModal from '@/components/ArticleModal.vue'
+import SignupModal from '@/components/SignupModal.vue'
+
 
 export default {
   name: 'home',
@@ -34,13 +40,24 @@ export default {
     HelloWorld,
     ArticleList,
     Modal,
-    LoginModal
+    LoginModal,
+    ArticleModal,
+    SignupModal
   },
   data() {
   	return {
   		showModal: false,
-  		showLoginModal: false
+  		showLoginModal: false,
+      showArticleModal: false,
+      showSignupModal: false
   	}
   }
 }
 </script>
+
+<style>
+ .mast-head {
+  margin: 2rem 0;
+  text-align: center;
+ }
+</style>
