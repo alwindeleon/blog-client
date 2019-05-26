@@ -5,7 +5,7 @@ import Axios from 'axios'
 Vue.use(Vuex)
 
 const HTTP = Axios.create({
-  baseURL: 'http://blog-deleon.herokuapp.com/api',
+  baseURL: 'https://blog-deleon.herokuapp.com/api',
 });
 
 export default new Vuex.Store({
