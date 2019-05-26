@@ -5,22 +5,18 @@
 		</h2>
 		<form slot='body'>
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">Username</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+		    <label for="exampleInputEmail1" >Username</label>
+		    <input type="text" class="form-control" v-model="username" placeholder="Enter username">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Password</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+		    <input type="text"  class="form-control" placeholder="Enter password" v-model="password">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Descibe yourself in less than 10 words</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+		    <input type="text" class="form-control" v-model="description" placeholder="Enter Description">
 		  </div>
-		  <div class="form-group">
-		    <label for="exampleFormControlFile1">Profile Picture</label>
-		    <input type="file" class="form-control-file" id="exampleFormControlFile1">
-		  </div>
-		  <button type="submit" class="btn btn-primary">Submit</button>
+		  <button type="button" class="btn btn-primary" @click="createAttempt()">Register!</button>
 		</form>
 	</Modal>
 	
@@ -29,10 +25,41 @@
 <script>
 	import Modal from '@/components/Modal.vue'
 
+	import { mapActions } from 'vuex';
+
 	export default {
-		name: 'login-modal',
+		name: 'signup-modal',
+		data() {
+			return {
+				username: '',
+				password: '',
+				description: ''
+			}
+		},
 		components: {
 			Modal
+		},
+		methods: {
+			...mapActions([
+				'create_user'
+			]),
+			createAttempt() {
+				if( !!this.username && !!this.password && !!this.description) {
+					let payload = {
+						username: this.username,
+						password: this.password,
+						description: this.description
+					}
+					this.create_user(payload).then( data => {
+						alert("Account Created! Please login");
+						this.$emit('close');
+					})
+					.catch( err => {
+						console.log(err);
+					})
+				}
+			}
+
 		}
 	}
 </script>

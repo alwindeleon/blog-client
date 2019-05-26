@@ -5,39 +5,32 @@
     		<h1 class="mast-head">Public Space</h1>
     		<button id="show-modal" @click="showLoginModal = true">Login</button>
         <button id="show-modal" @click="showSignupModal = true">Sign Up</button>
-    		<ArticleList></ArticleList>
+    		<ArticleList v-if="rawList != null" :articleList="rawList" :isEdit="false" @open="open"></ArticleList>
     	</div>
     </div>
-    <button id="show-modal" @click="showModal = true">Show Modal</button>
-    
-  <!-- use the modal component, pass in the prop -->
-  <Modal v-if="showModal" @close="showModal = false">
-    <!--
-      you can use custom content here to overwrite
-      default content
-    -->
-    <h3 slot="header">custom header</h3>
-  </Modal>
   <LoginModal  v-if="showLoginModal" @close="showLoginModal = false"></LoginModal>
-  <ArticleModal  v-if="showArticleModal" @close="showArticleModal = false"></ArticleModal>
+  <ArticleModal  
+    v-if="showArticleModal" 
+    @close="showArticleModal = false"
+    :article="currentArticle"
+    ></ArticleModal>
   <SignupModal  v-if="showSignupModal" @close="showSignupModal = false"></SignupModal>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import ArticleList from '@/components/ArticleList.vue'
 import Modal from '@/components/Modal.vue'
 import LoginModal from '@/components/LoginModal.vue'
 import ArticleModal from '@/components/ArticleModal.vue'
 import SignupModal from '@/components/SignupModal.vue'
 
+import { mapActions } from 'vuex';
 
 export default {
   name: 'home',
   components: {
-    HelloWorld,
     ArticleList,
     Modal,
     LoginModal,
@@ -49,8 +42,29 @@ export default {
   		showModal: false,
   		showLoginModal: false,
       showArticleModal: false,
-      showSignupModal: false
+      showSignupModal: false,
+      rawList: null,
+      currentArticle: null
   	}
+  },
+  mounted() {
+    this.getAllArticles().then( data => {
+      this.rawList = data.data.data.data
+      this.storeArticles(this.rawList);
+    })
+    .catch( err => {
+      console.log(err)
+    })
+  },
+  methods: {
+    ...mapActions([
+        'getAllArticles',
+        'storeArticles'
+    ]),
+    open(article) {
+      this.currentArticle = article;
+      this.showArticleModal = true;
+    }
   }
 }
 </script>

@@ -40,24 +40,16 @@ export default {
 	methods: {
 		...mapActions([
 			'login',
-			'auth_success',
+			'save_token',
 			'logout'
 		]),
 		loginAttempt(username, password) {
 		  	if(username != '' && password != '') {
 		  		this.login({username, password}).then( data => {
 		  			let token = data.data.data.token
-		  			let payload = {
-		  				token: token,
-		  				user: {
-		  					username: data.data.data.username,
-		  					user_id: data.data.data.user_id
-		  				}
-		  			}
 		  			localStorage.setItem('token', token)
-		  			localStorage.setItem('user', JSON.stringify(payload.user))
-        			this.auth_success(payload);
-        			this.$router.push('dashboard');
+        			// axios.defaults.headers.common['Authorization'] = token
+        			this.save_token(token);
 			  	}).catch( err => {
 			  		this.message = 'Invalid Credentials';
 				})

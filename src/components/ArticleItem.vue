@@ -1,17 +1,22 @@
 <template>
-  <div class="article-item">
+  <div class="article-item" v-if="article != null">
     <div class="title-holder">
-      <h3>Hello</h3>
+      <h3>{{article.title}}</h3>
     </div>
     <div class="read-more-holder">
-      <button class="btn btn-color">Read More</button>
+      <button class="btn btn-color" v-if="!isEdit" @click="$emit('open', article)">Read More</button>
+      <button class="btn btn-color" v-if="isEdit" @click="$emit('edit', article)">Edit</button>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'article-item'
+    name: 'article-item',
+    props: [
+      'article',
+      'isEdit'
+    ]
   }
 </script>
 <style>
