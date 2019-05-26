@@ -2,7 +2,6 @@
 	<Modal @close="$emit('close')" >
 		<h2 slot='header'>
 			Login
-			<button @click="logout()">logout</button>
 		</h2>
 
 		<form slot='body'>
